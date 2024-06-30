@@ -18,7 +18,7 @@ quit
  *     execute procedure protect_columns('column_1', 'column_2');
  * ```
  */
-create or replace function protect_columns()
+create or replace function @extschema@.protect_columns()
 	returns trigger
 	as $$
 declare
@@ -74,7 +74,7 @@ strict stable;
  *   update table set column_name = 'new value' where id = 1;
  * ```
  */
-create or replace function disable_protection_on_column(
+create or replace function @extschema@.disable_protection_on_column(
 	column text
 )
 	returns void
@@ -103,7 +103,7 @@ strict stable;
  *   perform re_enable_column_protection();
  * ```
  */
-create or replace function re_enable_column_protection()
+create or replace function @extschema@.re_enable_column_protection()
 	returns void
 	as $$
 declare
