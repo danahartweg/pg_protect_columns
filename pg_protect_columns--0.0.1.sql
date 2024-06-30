@@ -26,7 +26,14 @@ declare
 	current_column text;
 	new_value text;
 	old_value text;
+	disabled_column text := coalesce(current_setting('pg_protect_columns.disable_protection_on_column'::text, true), '');
 begin
+	-- Skip protection if it has been disabled for a particular column.
+	-- This usually happens when an api function is running.
+	if current_column = disabled_column then
+		continue;
+	end if;
+
 	for i in array_lower(target_columns, 1)..array_upper(target_columns, 1)
 	loop
 		current_column := target_columns[i];
@@ -42,6 +49,66 @@ begin
 			end if;
 		end loop;
 		return new;
+end;
+$$
+language plpgsql
+strict stable;
+
+
+/**
+ * Temporarily disable protection for a given column.
+ * Generally useful when running api functions that should update columns
+ * when the columns shouldn't otherwise be modified by users.
+ *
+ * *Note:* this only supports one table/column for now.
+ *
+ * Parameters:
+ * - `column` - The column for which to skip protection.
+ *
+ * Returns:
+ * - `void`
+ *
+ * Example:
+ * ```sql
+ *   perform disable_protection_on_column('column_name');
+ *   update table set column_name = 'new value' where id = 1;
+ * ```
+ */
+create or replace function disable_protection_on_column(
+	column text
+)
+	returns void
+	as $$
+declare
+begin
+	set local "pg_protect_columns.disable_protection_on_column" to column;
+end;
+$$
+language plpgsql
+strict stable;
+
+
+/**
+ * Removes disabled column protections set via `disable_protection_on_column`. In general, you should *always* call this
+ * after performing an update that disabled column protection.
+ *
+ * *Note:* since `disable_protection_on_column` only supports one table/column for now, this function will clear all disabled columns.
+ *
+ * Returns:
+ * - `void`
+ *
+ * Example:
+ * ```sql
+ *   update table set column_name = 'new value' where id = 1;
+ *   perform re_enable_column_protection();
+ * ```
+ */
+create or replace function re_enable_column_protection()
+	returns void
+	as $$
+declare
+begin
+	set local "pg_protect_columns.disable_protection_on_column" to null;
 end;
 $$
 language plpgsql
