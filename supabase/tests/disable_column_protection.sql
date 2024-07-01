@@ -21,7 +21,7 @@ values (
 	1,
 	'immutable value');
 
-perform
+select
 	disable_protection_on_column('immutable_column');
 
 select
@@ -35,7 +35,7 @@ select
 				immutable_column $$, $$
 			values ('new value') $$, 'A column with disabled protections can be updated.');
 
-perform
+select
 	re_enable_column_protection();
 
 select
