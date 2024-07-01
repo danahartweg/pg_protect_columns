@@ -62,7 +62,7 @@ strict stable;
  * *Note:* this only supports one table/column for now.
  *
  * Parameters:
- * - `column` - The column for which to skip protection.
+ * - `column_name` - The column for which to skip protection.
  *
  * Returns:
  * - `void`
@@ -74,13 +74,13 @@ strict stable;
  * ```
  */
 create or replace function @extschema@.disable_protection_on_column(
-	column text
+	column_name text
 )
 	returns void
 	as $$
 declare
 begin
-	set local "pg_protect_columns.disable_protection_on_column" to column;
+	set local "pg_protect_columns.disable_protection_on_column" to column_name;
 end;
 $$
 language plpgsql
