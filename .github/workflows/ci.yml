@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: baptiste0928/cargo-install@v3
+        with:
+          crate: dbdev
+          git: https://github.com/supabase/dbdev.git
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase init && supabase start
+
+      - name: Install extension
+        run: dbdev install --connection postgres://postgres:postgres@localhost:54322/postgres --path .
+
+      - name: Validate
+        run: supabase db lint
+
+      - name: Test
+        run: supabase test db

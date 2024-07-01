@@ -1,0 +1,20 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "pgFormatter.configFile": "${workspaceFolder}/.pg_format",
+  "pgFormatter.spaces": null,
+  "pgFormatter.tabs": null,
+  "pgFormatter.commaStart": null,
+  "pgFormatter.commaBreak": null,
+  "pgFormatter.commaEnd": null,
+  "pgFormatter.noComment": null,
+  "pgFormatter.functionCase": null,
+  "pgFormatter.noGrouping": null,
+  "pgFormatter.keepNewline": null,
+  "pgFormatter.keywordCase": null,
+  "pgFormatter.formatType": null,
+  "pgFormatter.wrapLimit": null,
+  "pgFormatter.placeholder": null,
+  "pgFormatter.extraFunction": null,
+  "pgFormatter.noSpaceFunction": null
+}
