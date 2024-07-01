@@ -60,7 +60,7 @@ select
 		set
 			immutable_column_1 = 'changed the value', immutable_column_2 = 'changed the value'
 			where
-				id = 1 $$, 'Modifying "immutable_column_1" is not allowed', 'Only one immutable column violation will be thrown.');
+				id = 1 $$, 'Modifying "immutable_column_1" is not allowed', 'Only the first immutable column violation will be thrown.');
 
 select
 	finish();

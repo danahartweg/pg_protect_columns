@@ -1,14 +1,15 @@
 -- Ensure this can only be called via `create extension`.
 \echo Use "CREATE EXTENSION pg_protect_columns" to load this file. \quit
 /**
- * A procedure that returns a trigger that will ensure *any* provided column cannot be changed by an update update.
+ * A function that returns a trigger to be used as a procedure that will ensure *any* designated columns
+ * cannot be changed by the specified action (usually update).
  * In general, you should prefix your trigger with an underscore to ensure it runs first.
  *
  * Returns:
- * - `trigger` - A trigger
+ * - `trigger` - A trigger to protect the designated columns.
  *
  * Throws:
- * - `restrict_violation` - If the column value has changed
+ * - `restrict_violation` - If the column value has changed.
  *
  * Example:
  * ```sql
@@ -55,9 +56,9 @@ strict stable;
 
 
 /**
- * Temporarily disable protection for a given column.
+ * Temporarily disable protection for a designated column.
  * Generally useful when running api functions that should update columns
- * when the columns shouldn't otherwise be modified by users.
+ * when the columns shouldn't otherwise be modified directly by users.
  *
  * *Note:* this only supports one table/column for now.
  *

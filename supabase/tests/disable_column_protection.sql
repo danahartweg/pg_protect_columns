@@ -44,7 +44,7 @@ select
 		set
 			immutable_column = 'changed the value'
 			where
-				id = 1 $$, 'Modifying "immutable_column_2" is not allowed', 'The column cannot be updated after protection is re-enabled.');
+				id = 1 $$, 'Modifying "immutable_column" is not allowed', 'The column cannot be updated after protection is re-enabled.');
 
 select
 	finish();
