@@ -28,15 +28,14 @@ declare
 	old_value text;
 	disabled_column text := coalesce(current_setting('pg_protect_columns.disable_protection_on_column'::text, true), '');
 begin
-	-- Skip protection if it has been disabled for a particular column.
-	-- This usually happens when an api function is running.
-	if current_column = disabled_column then
-		continue;
-	end if;
-
 	for i in array_lower(target_columns, 1)..array_upper(target_columns, 1)
 	loop
 		current_column := target_columns[i];
+		-- Skip protection if it has been disabled for a particular column.
+		-- This usually happens when an api function is running.
+		if current_column = disabled_column then
+			continue;
+		end if;
 		-- Get current values from the new and old records for comparison.
 		execute format('SELECT ($1).%I, ($2).%I', current_column, current_column) into new_value,
 		old_value
