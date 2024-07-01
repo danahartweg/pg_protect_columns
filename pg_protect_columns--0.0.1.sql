@@ -107,7 +107,7 @@ create or replace function @extschema@.re_enable_column_protection()
 	as $$
 declare
 begin
-	set local "pg_protect_columns.disable_protection_on_column" to null;
+	reset "pg_protect_columns.disable_protection_on_column";
 end;
 $$
 language plpgsql
