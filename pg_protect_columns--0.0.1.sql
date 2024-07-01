@@ -55,7 +55,7 @@ strict stable;
 
 
 /**
- * Temporarily disable protection for a designated column.
+ * Temporarily disable protection for a designated column for the current transaction.
  * Generally useful when running api functions that should update columns
  * when the columns shouldn't otherwise be modified directly by users.
  *
@@ -80,7 +80,7 @@ create or replace function @extschema@.disable_protection_on_column(
 	as $$
 declare
 begin
-	set local "pg_protect_columns.disable_protection_on_column" to column_name;
+	execute 'set local "pg_protect_columns.disable_protection_on_column" to ' || quote_literal(column_name);
 end;
 $$
 language plpgsql
@@ -89,7 +89,7 @@ strict volatile;
 
 /**
  * Removes disabled column protections set via `disable_protection_on_column`. In general, you should *always* call this
- * after performing an update that disabled column protection.
+ * after performing an update that disabled column protection, even though it will only persist for the current transaction.
  *
  * *Note:* since `disable_protection_on_column` only supports one table/column for now, this function will clear all disabled columns.
  *
