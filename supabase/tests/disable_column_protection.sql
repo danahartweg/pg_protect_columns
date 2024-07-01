@@ -1,5 +1,7 @@
 begin;
 
+create extension pg_protect_columns;
+
 select
 	plan(2);
 
