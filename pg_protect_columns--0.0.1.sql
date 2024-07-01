@@ -84,7 +84,7 @@ begin
 end;
 $$
 language plpgsql
-strict stable;
+strict volatile;
 
 
 /**
@@ -111,4 +111,4 @@ begin
 end;
 $$
 language plpgsql
-strict stable;
+strict volatile;
