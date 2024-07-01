@@ -1,6 +1,5 @@
 -- Ensure this can only be called via `create extension`.
-\echo Use "CREATE EXTENSION pg_protect_columns" to load this file.
-quit
+\echo Use "CREATE EXTENSION pg_protect_columns" to load this file. \quit
 /**
  * A procedure that returns a trigger that will ensure *any* provided column cannot be changed by an update update.
  * In general, you should prefix your trigger with an underscore to ensure it runs first.

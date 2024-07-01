@@ -49,7 +49,7 @@ numbering=0
 output=
 
 # Set regex to find code that must not be changed.
-placeholder=
+placeholder=\\quit
 
 # Use multi-line search for placeholder regex.
 multiline=0
