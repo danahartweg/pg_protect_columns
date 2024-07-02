@@ -43,7 +43,7 @@ create function api_update_column(
 	record_id bigint,
 	new_value text
 )
-  returns void
+	returns void
 	as $$
 begin
 	perform disable_protection_on_column('immutable_column');
@@ -55,7 +55,7 @@ begin
 	where
 		id = record_id;
 
-  perform re_enable_column_protection();
+	perform re_enable_column_protection();
 end;
 $$
 language plpgsql;
