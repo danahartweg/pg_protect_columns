@@ -10,8 +10,8 @@ If you're using Supabase:
 2) Install the extension
 
 ```sql
-select dbdev.install('pg_protect_columns');
-create extension if not exists "pg_protect_columns";
+select dbdev.install('danahartweg@pg_protect_columns');
+create extension if not exists "danahartweg@pg_protect_columns";
 ```
 
 ## Usage
