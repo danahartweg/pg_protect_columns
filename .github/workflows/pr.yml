@@ -34,3 +34,4 @@ jobs:
         uses: zattoo/changelog@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: "CONTRIBUTING.md, .gitignore, .github/**/*"
