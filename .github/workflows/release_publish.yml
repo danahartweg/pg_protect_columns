@@ -35,6 +35,7 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@v0.8.0
         with:
           repository: ${{ github.repository }}
+          token: ${{ github.token }}
 
       - name: Parse changelog
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
