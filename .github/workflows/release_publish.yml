@@ -48,7 +48,7 @@ jobs:
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
         uses: actions/create-release@v1.1.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ steps.local_version.outputs.version }}
           release_name: ${{ steps.local_version.outputs.version }}
