@@ -20,7 +20,7 @@ jobs:
         shell: bash
         run: |
           mkdir $HOME/.dbdev
-          echo '[registries.dbdev]\ntoken = "$MAPPED_DBDEV_TOKEN"' >> $HOME/.dbdev/credentials.toml
+          printf '[registries.dbdev]\ntoken = "%s"' $MAPPED_DBDEV_TOKEN > $HOME/.dbdev/credentials.toml
         env:
           MAPPED_DBDEV_TOKEN: ${{ secrets.DBDEV_TOKEN }}
 
