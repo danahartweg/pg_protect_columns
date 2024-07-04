@@ -40,9 +40,6 @@ jobs:
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
         id: changelog
         uses: mindsers/changelog-reader-action@v2.2.3
-        with:
-          version: ${{ steps.local_version.outputs.version }}
-          path: ./CHANGELOG.md
 
       - name: Release
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
