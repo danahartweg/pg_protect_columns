@@ -43,13 +43,13 @@ jobs:
 
       - name: Release
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
-        uses: actions/create-release@v1.1.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        uses: ncipollo/release-action@v1.14.0
         with:
-          tag_name: ${{ steps.local_version.outputs.version }}
-          release_name: ${{ steps.local_version.outputs.version }}
-          body: ${{ steps.changelog.outputs.log_entry }}
+          tag: ${{ steps.local_version.outputs.version }}
+          name: ${{ steps.local_version.outputs.version }}
+          body: ${{ steps.changelog.outputs.changes }}
+          allowUpdates: true
+          token: ${{ github.token }}
 
       - name: Publish
         if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
