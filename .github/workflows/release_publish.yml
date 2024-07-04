@@ -1,0 +1,58 @@
+name: Release and publish to database.dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: baptiste0928/cargo-install@v3
+        with:
+          crate: dbdev
+          git: https://github.com/supabase/dbdev.git
+
+      - name: Create dbdev credentials file
+        shell: bash
+        run: |
+          mkdir $HOME/.dbdev
+          echo '[registries.dbdev]\ntoken = "$MAPPED_DBDEV_TOKEN"' >> $HOME/.dbdev/credentials.toml
+        env:
+          MAPPED_DBDEV_TOKEN: ${{ secrets.DBDEV_TOKEN }}
+
+      - name: Parse local version
+        id: local_version
+        shell: bash
+        run: |
+          echo ::set-output name=version::v$(grep default_version pg_protect_columns.control | tr -d ' ' | cut -d '=' -f2)
+
+      - name: Parse remote version
+        id: remote_version
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Parse changelog
+        if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
+        id: changelog
+        uses: mindsers/changelog-reader-action@v2.2.3
+
+      - name: Release
+        if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
+        uses: actions/create-release@v1.1.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: ${{ steps.local_version.outputs.version }}
+          release_name: ${{ steps.local_version.outputs.version }}
+          body: ${{ steps.changelog.outputs.log_entry }}
+
+      - name: Publish
+        if: ${{ steps.local_version.outputs.version != steps.remote_version.outputs.release }}
+        shell: bash
+        run: |
+          dbdev publish
